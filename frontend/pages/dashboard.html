@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | StadiumFlow</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Tailwind CSS (for quick layout utilities only) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body class="pt-24 pb-10">
+    <!-- Navbar Placeholder -->
+    <div id="navbar"></div>
+
+    <main class="container animate-fade-in">
+        <!-- Dashboard Header -->
+        <header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-6">
+            <div>
+                <h1 class="text-4xl font-extrabold mb-1">Operational Intelligence</h1>
+                <p class="text-secondary font-medium uppercase tracking-widest text-[0.7rem] opacity-70">Stadium-wide Real-Time Telemetry</p>
+            </div>
+            <div class="glass-panel px-6 py-3 rounded-2xl flex items-center gap-4 bg-white/[0.02]">
+                <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 bg-accent rounded-full animate-pulse shadow-[0_0_10px_#00e5ff]"></span>
+                    <span class="text-[0.65rem] font-bold text-accent uppercase tracking-tighter">Live Status</span>
+                </div>
+                <div id="liveClock" class="font-mono font-black text-xl text-white">--:--:--</div>
+            </div>
+        </header>
+
+        <!-- KPI Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="glass-panel p-6 relative overflow-hidden group">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="text-2xl">🔥</span>
+                    <div class="px-3 py-1 bg-red-500/10 text-red-500 rounded-full text-[0.6rem] font-black uppercase tracking-widest">Congestion Peak</div>
+                </div>
+                <h3 id="mostCrowdedValue" class="text-4xl font-bold mb-1">--m</h3>
+                <p id="mostCrowdedArea" class="text-secondary text-[0.7rem] font-bold uppercase tracking-widest">Loading Sensor Data...</p>
+                <div class="absolute bottom-0 left-0 w-full h-[2px] bg-red-500/20"></div>
+            </div>
+
+            <div class="glass-panel p-6 relative overflow-hidden group">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="text-2xl">⚡</span>
+                    <div class="px-3 py-1 bg-emerald-500/10 text-emerald-500 rounded-full text-[0.6rem] font-black uppercase tracking-widest">Flow Optimization</div>
+                </div>
+                <h3 id="leastCrowdedValue" class="text-4xl font-bold mb-1">--m</h3>
+                <p id="leastCrowdedArea" class="text-secondary text-[0.7rem] font-bold uppercase tracking-widest">Loading Sensor Data...</p>
+                <div class="absolute bottom-0 left-0 w-full h-[2px] bg-emerald-500/20"></div>
+            </div>
+
+            <div class="glass-panel p-6 relative overflow-hidden group">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="text-2xl">🚻</span>
+                    <div class="px-3 py-1 bg-cyan-500/10 text-cyan-500 rounded-full text-[0.6rem] font-black uppercase tracking-widest">Facility Status</div>
+                </div>
+                <h3 id="bestRestroomValue" class="text-4xl font-bold mb-1">--m</h3>
+                <p id="bestRestroomArea" class="text-secondary text-[0.7rem] font-bold uppercase tracking-widest">Loading Sensor Data...</p>
+                <div class="absolute bottom-0 left-0 w-full h-[2px] bg-cyan-500/20"></div>
+            </div>
+        </div>
+
+        <!-- Main Visual Analytics Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-10 items-stretch">
+            <!-- Traffic Chart Card -->
+            <div class="lg:col-span-8 glass-panel p-8 bg-gradient-to-b from-white/[0.01] to-transparent">
+                <h3 class="font-bold mb-8 flex items-center gap-3 text-sm text-secondary tracking-widest uppercase">
+                    <i class="fa-solid fa-chart-simple text-accent"></i>
+                    Section Density Overview
+                </h3>
+                <div class="h-[350px] w-full relative">
+                    <canvas id="trafficChart"></canvas>
+                </div>
+            </div>
+
+            <!-- AI Insight Panel -->
+            <div class="lg:col-span-4 flex flex-col gap-6">
+                <!-- AI Smart Recs -->
+                <div class="glass-panel p-8 flex-1 bg-indigo-500/[0.02]">
+                    <h3 class="font-bold mb-6 text-sm text-secondary tracking-widest uppercase flex items-center gap-2">
+                        <i class="fa-solid fa-brain text-accent"></i>
+                        AI Recommendations
+                    </h3>
+                    
+                    <div id="aiRecommendationsList" class="space-y-6 mb-6">
+                        <!-- Dynamic content -->
+                    </div>
+
+                    <div class="p-6 border border-white/5 rounded-2xl bg-white/[0.02] backdrop-blur-md">
+                         <div class="text-[0.6rem] text-accent font-black mb-2 uppercase tracking-[0.2em]">Strategy Insight</div>
+                         <p id="aiSuggestionText" class="text-[0.8rem] text-slate-300 leading-relaxed italic">Synchronizing with live stadium sensors...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Secondary Operational Overview -->
+        <section class="mb-10">
+            <h2 class="text-base font-bold text-secondary uppercase tracking-[0.2em] mb-8 flex items-center gap-3">
+                <span class="w-1.5 h-1.5 bg-accent rounded-full"></span>
+                Regional Node Status
+            </h2>
+            <div id="operationalGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Kategoriler dynamic but styled -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer Placeholder -->
+    <div id="footer"></div>
+
+    <script src="../js/layout.js"></script>
+    <script type="module" src="../js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thermal Heatmap - StadiumSync AI</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body class="page-fade-in">
+    <nav>
+        <a href="index.html" class="logo">StadiumSync AI</a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="find-seat.html">Find My Seat</a>
+            <a href="heatmap.html" class="active">Heatmap</a>
+            <a href="food.html">Order Food</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="live-clock-wrapper">
+            <div class="live-clock" id="liveClock">⏱ --:--:--</div>
+        </div>
+
+        <h1>Thermal Density Heatmap</h1>
+        <p style="text-align: center; margin-bottom: 2rem;">Real-time crowd topology with distinct structural bounds.
+            Zones update continuously.</p>
+
+        <div class="map-container heatmap-container glass-panel">
+            <canvas id="heatmapCanvas" width="1000" height="700" class="stadium-map"></canvas>
+            <div id="tooltip"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 <span>StadiumSync AI</span> • Built by Yashrajsinh Kanchva</p>
+        <div class="social-links">
+            <a href="https://www.linkedin.com/in/yashrajsinh-kanchva" target="_blank" class="linkedin"
+                title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <a href="https://github.com/Yashrajsinh-Kanchva" target="_blank" class="github" title="GitHub"><i
+                    class="fab fa-github"></i></a>
+            <a href="https://leetcode.com/u/yashrajsinh_kanchva" target="_blank" class="leetcode" title="LeetCode"><i
+                    class="fas fa-code"></i></a>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initHeatmap();
+        });
+    </script>
+</body>
+
+</html>

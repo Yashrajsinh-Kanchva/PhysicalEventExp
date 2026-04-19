@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Order | StadiumFlow</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body class="pt-24 pb-12">
+    <!-- Navbar Placeholder -->
+    <div id="navbar"></div>
+
+    <main class="container animate-fade-in">
+        <!-- Header -->
+        <header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
+            <div>
+                <h1 class="text-4xl font-extrabold mb-1">Concession Services</h1>
+                <p class="text-secondary font-medium uppercase tracking-widest text-[0.7rem] opacity-70">Pre-order for Express In-Seat Pickup</p>
+            </div>
+            <button class="cart-toggle glass-panel px-6 py-3 rounded-2xl flex items-center gap-4 bg-white/[0.02] border-accent/20 hover:border-accent group">
+                <div class="relative">
+                    <i class="fa-solid fa-cart-shopping text-accent text-xl"></i>
+                    <span class="cart-badge absolute -top-2 -right-3 bg-red-500 text-white text-[10px] font-black w-5 h-5 flex items-center justify-center rounded-full border-2 border-dark animate-bounce">0</span>
+                </div>
+                <span class="text-sm font-bold text-white tracking-wide">VIEW CART</span>
+            </button>
+        </header>
+
+        <!-- Category Filters -->
+        <div class="flex flex-wrap gap-4 mb-12">
+            <button data-category="all" class="cat-filter active px-8 py-3 rounded-2xl glass-panel text-sm font-black uppercase tracking-widest border-accent/40 bg-accent/10 text-accent transition-all">All Items</button>
+            <button data-category="Mains" class="cat-filter px-8 py-3 rounded-2xl glass-panel text-sm font-black uppercase tracking-widest border-white/5 hover:border-white/20 text-slate-400 hover:text-white transition-all">Mains</button>
+            <button data-category="Snacks" class="cat-filter px-8 py-3 rounded-2xl glass-panel text-sm font-black uppercase tracking-widest border-white/5 hover:border-white/20 text-slate-400 hover:text-white transition-all">Snacks</button>
+            <button data-category="Drinks" class="cat-filter px-8 py-3 rounded-2xl glass-panel text-sm font-black uppercase tracking-widest border-white/5 hover:border-white/20 text-slate-400 hover:text-white transition-all">Drinks</button>
+        </div>
+
+        <!-- Product Grid -->
+        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Items injected by food.js -->
+        </div>
+    </main>
+
+    <!-- Cart Drawer -->
+    <div id="cartDrawerOverlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[2000] hidden transition-all">
+        <div id="cartDrawer" class="absolute right-0 top-0 h-full w-full max-w-md bg-dark border-l border-white/5 shadow-2xl flex flex-col pt-24">
+            <div class="px-8 flex justify-between items-center mb-8">
+                <h2 class="text-2xl font-black">Your Order</h2>
+                <button class="cart-toggle text-slate-500 hover:text-white text-2xl">✕</button>
+            </div>
+            
+            <div id="cartItemsContainer" class="flex-1 overflow-y-auto px-8 space-y-6">
+                <!-- Cart items list -->
+            </div>
+
+            <div class="p-8 border-t border-white/5 space-y-4">
+                <div class="flex justify-between items-center">
+                    <span class="text-secondary font-bold uppercase tracking-widest text-xs">Estimated Total</span>
+                    <span id="cartTotal" class="text-3xl font-black text-white">₹0.00</span>
+                </div>
+                <button onclick="checkout()" class="w-full bg-accent text-dark font-black py-4 rounded-2xl text-lg hover:scale-[1.02] transition-transform shadow-[0_4px_30px_rgba(0,229,255,0.3)]">
+                    CONFIRM CHECKOUT 🚀
+                </button>
+                <p class="text-[0.65rem] text-center text-slate-500 font-bold uppercase tracking-widest">Pickup at Section B - Counter 4</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Placeholder -->
+    <div id="footer"></div>
+
+    <script src="../js/layout.js"></script>
+    <script type="module" src="../js/main.js"></script>
+</body>
+</html>

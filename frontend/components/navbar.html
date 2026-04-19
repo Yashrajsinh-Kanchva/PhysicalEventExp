@@ -1,0 +1,54 @@
+<nav class="fixed top-0 left-0 w-full z-[1000] bg-dark/80 backdrop-blur-xl border-b border-white/[0.05]">
+    <div class="max-w-[1280px] mx-auto px-10 h-20 flex justify-between items-center">
+        <!-- Logo -->
+        <a href="/index.html" class="flex items-center gap-2 group outline-none">
+            <div class="w-8 h-8 bg-accent rounded-lg flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(0,229,255,0.3)]">
+                <i class="fa-solid fa-bolt-lightning text-dark text-sm"></i>
+            </div>
+            <span class="font-poppins font-black text-2xl tracking-tighter text-white">Stadium<span class="text-accent">Flow</span></span>
+        </a>
+
+        <!-- Desktop Navigation -->
+        <div id="navLinks" class="hidden md:flex gap-10">
+            <a href="/index.html" data-nav="home" class="font-bold text-[0.7rem] uppercase tracking-[0.2em] text-secondary hover:text-accent transition-all relative group py-2">
+                Home
+                <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-accent transition-all group-hover:w-full"></span>
+            </a>
+            <a href="/pages/dashboard.html" data-nav="dashboard" class="font-bold text-[0.7rem] uppercase tracking-[0.2em] text-secondary hover:text-accent transition-all relative group py-2">
+                Dashboard
+                <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-accent transition-all group-hover:w-full"></span>
+            </a>
+            <a href="/pages/heatmap.html" data-nav="heatmap" class="font-bold text-[0.7rem] uppercase tracking-[0.2em] text-secondary hover:text-accent transition-all relative group py-2">
+                Heatmap
+                <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-accent transition-all group-hover:w-full"></span>
+            </a>
+            <a href="/pages/navigation.html" data-nav="navigation" class="font-bold text-[0.7rem] uppercase tracking-[0.2em] text-secondary hover:text-accent transition-all relative group py-2">
+                Find My Seat
+                <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-accent transition-all group-hover:w-full"></span>
+            </a>
+            <a href="/pages/food-order.html" data-nav="food" class="font-bold text-[0.7rem] uppercase tracking-[0.2em] text-secondary hover:text-accent transition-all relative group py-2">
+                Food Order
+                <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-accent transition-all group-hover:w-full"></span>
+            </a>
+        </div>
+
+        <!-- Action Items -->
+        <div class="flex items-center gap-4">
+            <div class="hidden sm:flex flex-col items-end mr-2">
+                <div class="text-[0.6rem] font-black text-accent uppercase tracking-widest opacity-80">Venue Node</div>
+                <div class="text-[0.7rem] font-bold text-white">MODI_STADIUM_ALPHA</div>
+            </div>
+            <button id="mobileMenuBtn" class="md:hidden text-2xl text-slate-400 hover:text-white transition-colors">
+                <i class="fa-solid fa-bars-staggered"></i>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<!-- Mobile Menu Overlay -->
+<div id="mobileMenu" class="md:hidden hidden fixed inset-0 z-[900] bg-dark/95 backdrop-blur-2xl px-10 pt-32 flex flex-col gap-8 animate-fade-in">
+    <a href="/index.html" class="text-3xl font-black text-slate-300 hover:text-accent transition-colors">Home</a>
+    <a href="/pages/dashboard.html" class="text-3xl font-black text-slate-300 hover:text-accent transition-colors">Dashboard</a>
+    <a href="/pages/heatmap.html" class="text-3xl font-black text-slate-300 hover:text-accent transition-colors">Heatmap</a>
+    <a href="/pages/food-order.html" class="text-3xl font-black text-slate-300 hover:text-accent transition-colors">Food Order</a>
+</div>

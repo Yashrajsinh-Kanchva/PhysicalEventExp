@@ -1,0 +1,542 @@
+[
+  {
+    "timestamp": "2026-04-19T12:45:26.908Z",
+    "highestCongestion": {
+      "area": "Gate 1",
+      "wait": 18
+    },
+    "clearestPath": {
+      "area": "Gate 2",
+      "wait": 5
+    },
+    "bestRestroom": {
+      "area": "Women 1",
+      "wait": 1
+    },
+    "zones": {
+      "gates": {
+        "Gate 1": 18,
+        "Gate 2": 5,
+        "Gate 3": 16,
+        "Gate 4": 6
+      },
+      "restrooms": {
+        "Men 1": 3,
+        "Men 2": 18,
+        "Women 1": 1,
+        "Women 2": 9
+      },
+      "foodCourts": {
+        "Food Court A": 6,
+        "Food Court B": 6,
+        "Food Court C": 17
+      },
+      "merchandise": {
+        "Store 1": 4,
+        "Store 2": 14
+      },
+      "sections": {
+        "Section A": 6,
+        "Section B": 19,
+        "Section C": 16,
+        "Section D": 3,
+        "Section E": 1,
+        "Section F": 10,
+        "Section G": 8,
+        "Section H": 7,
+        "Section I": 10,
+        "Section J": 10,
+        "Section K": 13,
+        "Section L": 17,
+        "Section M": 6,
+        "Section N": 14
+      }
+    }
+  },
+  {
+    "timestamp": "2026-04-19T12:44:26.916Z",
+    "highestCongestion": {
+      "area": "Gate 3",
+      "wait": 15
+    },
+    "clearestPath": {
+      "area": "Gate 4",
+      "wait": 7
+    },
+    "bestRestroom": {
+      "area": "Women 1",
+      "wait": 3
+    },
+    "zones": {
+      "gates": {
+        "Gate 1": 10,
+        "Gate 2": 10,
+        "Gate 3": 15,
+        "Gate 4": 7
+      },
+      "restrooms": {
+        "Men 1": 20,
+        "Men 2": 16,
+        "Women 1": 3,
+        "Women 2": 17
+      },
+      "foodCourts": {
+        "Food Court A": 11,
+        "Food Court B": 16,
+        "Food Court C": 13
+      },
+      "merchandise": {
+        "Store 1": 1,
+        "Store 2": 1
+      },
+      "sections": {
+        "Section A": 20,
+        "Section B": 19,
+        "Section C": 20,
+        "Section D": 16,
+        "Section E": 13,
+        "Section F": 6,
+        "Section G": 11,
+        "Section H": 1,
+        "Section I": 19,
+        "Section J": 1,
+        "Section K": 17,
+        "Section L": 5,
+        "Section M": 19,
+        "Section N": 19
+      }
+    }
+  },
+  {
+    "timestamp": "2026-04-19T12:43:26.921Z",
+    "highestCongestion": {
+      "area": "Gate 1",
+      "wait": 20
+    },
+    "clearestPath": {
+      "area": "Gate 4",
+      "wait": 6
+    },
+    "bestRestroom": {
+      "area": "Women 2",
+      "wait": 3
+    },
+    "zones": {
+      "gates": {
+        "Gate 1": 20,
+        "Gate 2": 9,
+        "Gate 3": 17,
+        "Gate 4": 6
+      },
+      "restrooms": {
+        "Men 1": 9,
+        "Men 2": 6,
+        "Women 1": 9,
+        "Women 2": 3
+      },
+      "foodCourts": {
+        "Food Court A": 14,
+        "Food Court B": 12,
+        "Food Court C": 4
+      },
+      "merchandise": {
+        "Store 1": 15,
+        "Store 2": 17
+      },
+      "sections": {
+        "Section A": 12,
+        "Section B": 1,
+        "Section C": 7,
+        "Section D": 5,
+        "Section E": 12,
+        "Section F": 9,
+        "Section G": 5,
+        "Section H": 1,
+        "Section I": 14,
+        "Section J": 20,
+        "Section K": 2,
+        "Section L": 7,
+        "Section M": 1,
+        "Section N": 17
+      }
+    }
+  },
+  {
+    "timestamp": "2026-04-19T12:42:26.908Z",
+    "highestCongestion": {
+      "area": "Gate 2",
+      "wait": 11
+    },
+    "clearestPath": {
+      "area": "Gate 3",
+      "wait": 4
+    },
+    "bestRestroom": {
+      "area": "Women 2",
+      "wait": 4
+    },
+    "zones": {
+      "gates": {
+        "Gate 1": 7,
+        "Gate 2": 11,
+        "Gate 3": 4,
+        "Gate 4": 11
+      },
+      "restrooms": {
+        "Men 1": 11,
+        "Men 2": 6,
+        "Women 1": 6,
+        "Women 2": 4
+      },
+      "foodCourts": {
+        "Food Court A": 10,
+        "Food Court B": 7,
+        "Food Court C": 10
+      },
+      "merchandise": {
+        "Store 1": 4,
+        "Store 2": 16
+      },
+      "sections": {
+        "Section A": 1,
+        "Section B": 5,
+        "Section C": 1,
+        "Section D": 10,
+        "Section E": 15,
+        "Section F": 5,
+        "Section G": 11,
+        "Section H": 10,
+        "Section I": 17,
+        "Section J": 18,
+        "Section K": 6,
+        "Section L": 15,
+        "Section M": 7,
+        "Section N": 20
+      }
+    }
+  },
+  {
+    "timestamp": "2026-04-19T12:41:26.909Z",
+    "highestCongestion": {
+      "area": "Gate 4",
+      "wait": 14
+    },
+    "clearestPath": {
+      "area": "Gate 1",
+      "wait": 7
+    },
+    "bestRestroom": {
+      "area": "Women 1",
+      "wait": 1
+    },
+    "zones": {
+      "gates": {
+        "Gate 1": 7,
+        "Gate 2": 9,
+        "Gate 3": 9,
+        "Gate 4": 14
+      },
+      "restrooms": {
+        "Men 1": 8,
+        "Men 2": 11,
+        "Women 1": 1,
+        "Women 2": 4
+      },
+      "foodCourts": {
+        "Food Court A": 9,
+        "Food Court B": 17,
+        "Food Court C": 11
+      },
+      "merchandise": {
+        "Store 1": 14,
+        "Store 2": 12
+      },
+      "sections": {
+        "Section A": 17,
+        "Section B": 18,
+        "Section C": 6,
+        "Section D": 7,
+        "Section E": 19,
+        "Section F": 20,
+        "Section G": 16,
+        "Section H": 2,
+        "Section I": 5,
+        "Section J": 2,
+        "Section K": 9,
+        "Section L": 16,
+        "Section M": 8,
+        "Section N": 13
+      }
+    }
+  },
+  {
+    "timestamp": "2026-04-19T12:40:26.921Z",
+    "highestCongestion": {
+      "area": "Gate 1",
+      "wait": 17
+    },
+    "clearestPath": {
+      "area": "Gate 4",
+      "wait": 3
+    },
+    "bestRestroom": {
+      "area": "Women 1",
+      "wait": 5
+    },
+    "zones": {
+      "gates": {
+        "Gate 1": 17,
+        "Gate 2": 15,
+        "Gate 3": 15,
+        "Gate 4": 3
+      },
+      "restrooms": {
+        "Men 1": 7,
+        "Men 2": 6,
+        "Women 1": 5,
+        "Women 2": 16
+      },
+      "foodCourts": {
+        "Food Court A": 5,
+        "Food Court B": 13,
+        "Food Court C": 20
+      },
+      "merchandise": {
+        "Store 1": 6,
+        "Store 2": 4
+      },
+      "sections": {
+        "Section A": 13,
+        "Section B": 11,
+        "Section C": 10,
+        "Section D": 6,
+        "Section E": 7,
+        "Section F": 2,
+        "Section G": 12,
+        "Section H": 6,
+        "Section I": 2,
+        "Section J": 15,
+        "Section K": 11,
+        "Section L": 7,
+        "Section M": 9,
+        "Section N": 9
+      }
+    }
+  },
+  {
+    "timestamp": "2026-04-19T12:39:26.920Z",
+    "highestCongestion": {
+      "area": "Gate 3",
+      "wait": 13
+    },
+    "clearestPath": {
+      "area": "Gate 1",
+      "wait": 4
+    },
+    "bestRestroom": {
+      "area": "Women 1",
+      "wait": 5
+    },
+    "zones": {
+      "gates": {
+        "Gate 1": 4,
+        "Gate 2": 9,
+        "Gate 3": 13,
+        "Gate 4": 6
+      },
+      "restrooms": {
+        "Men 1": 8,
+        "Men 2": 9,
+        "Women 1": 5,
+        "Women 2": 15
+      },
+      "foodCourts": {
+        "Food Court A": 17,
+        "Food Court B": 1,
+        "Food Court C": 7
+      },
+      "merchandise": {
+        "Store 1": 18,
+        "Store 2": 10
+      },
+      "sections": {
+        "Section A": 16,
+        "Section B": 2,
+        "Section C": 8,
+        "Section D": 4,
+        "Section E": 20,
+        "Section F": 8,
+        "Section G": 2,
+        "Section H": 11,
+        "Section I": 12,
+        "Section J": 7,
+        "Section K": 20,
+        "Section L": 9,
+        "Section M": 15,
+        "Section N": 6
+      }
+    }
+  },
+  {
+    "timestamp": "2026-04-19T12:38:26.922Z",
+    "highestCongestion": {
+      "area": "Gate 2",
+      "wait": 13
+    },
+    "clearestPath": {
+      "area": "Gate 1",
+      "wait": 3
+    },
+    "bestRestroom": {
+      "area": "Women 2",
+      "wait": 2
+    },
+    "zones": {
+      "gates": {
+        "Gate 1": 3,
+        "Gate 2": 13,
+        "Gate 3": 3,
+        "Gate 4": 5
+      },
+      "restrooms": {
+        "Men 1": 14,
+        "Men 2": 19,
+        "Women 1": 7,
+        "Women 2": 2
+      },
+      "foodCourts": {
+        "Food Court A": 14,
+        "Food Court B": 19,
+        "Food Court C": 7
+      },
+      "merchandise": {
+        "Store 1": 12,
+        "Store 2": 11
+      },
+      "sections": {
+        "Section A": 9,
+        "Section B": 14,
+        "Section C": 6,
+        "Section D": 1,
+        "Section E": 9,
+        "Section F": 19,
+        "Section G": 12,
+        "Section H": 14,
+        "Section I": 1,
+        "Section J": 2,
+        "Section K": 10,
+        "Section L": 12,
+        "Section M": 19,
+        "Section N": 7
+      }
+    }
+  },
+  {
+    "timestamp": "2026-04-19T12:38:13.918Z",
+    "highestCongestion": {
+      "area": "Gate 2",
+      "wait": 18
+    },
+    "clearestPath": {
+      "area": "Gate 4",
+      "wait": 3
+    },
+    "bestRestroom": {
+      "area": "Men 2",
+      "wait": 1
+    },
+    "zones": {
+      "gates": {
+        "Gate 1": 16,
+        "Gate 2": 18,
+        "Gate 3": 16,
+        "Gate 4": 3
+      },
+      "restrooms": {
+        "Men 1": 14,
+        "Men 2": 1,
+        "Women 1": 16,
+        "Women 2": 20
+      },
+      "foodCourts": {
+        "Food Court A": 14,
+        "Food Court B": 1,
+        "Food Court C": 19
+      },
+      "merchandise": {
+        "Store 1": 7,
+        "Store 2": 19
+      },
+      "sections": {
+        "Section A": 17,
+        "Section B": 4,
+        "Section C": 18,
+        "Section D": 3,
+        "Section E": 15,
+        "Section F": 14,
+        "Section G": 17,
+        "Section H": 12,
+        "Section I": 3,
+        "Section J": 17,
+        "Section K": 19,
+        "Section L": 17,
+        "Section M": 16,
+        "Section N": 18
+      }
+    }
+  },
+  {
+    "timestamp": "2026-04-19T12:38:05.907Z",
+    "highestCongestion": {
+      "area": "Gate 3",
+      "wait": 18
+    },
+    "clearestPath": {
+      "area": "Gate 4",
+      "wait": 7
+    },
+    "bestRestroom": {
+      "area": "Women 1",
+      "wait": 2
+    },
+    "zones": {
+      "gates": {
+        "Gate 1": 10,
+        "Gate 2": 15,
+        "Gate 3": 18,
+        "Gate 4": 7
+      },
+      "restrooms": {
+        "Men 1": 17,
+        "Men 2": 17,
+        "Women 1": 2,
+        "Women 2": 13
+      },
+      "foodCourts": {
+        "Food Court A": 7,
+        "Food Court B": 9,
+        "Food Court C": 2
+      },
+      "merchandise": {
+        "Store 1": 18,
+        "Store 2": 6
+      },
+      "sections": {
+        "Section A": 4,
+        "Section B": 11,
+        "Section C": 1,
+        "Section D": 11,
+        "Section E": 8,
+        "Section F": 9,
+        "Section G": 17,
+        "Section H": 1,
+        "Section I": 7,
+        "Section J": 18,
+        "Section K": 10,
+        "Section L": 10,
+        "Section M": 5,
+        "Section N": 19
+      }
+    }
+  }
+]
