@@ -11,33 +11,33 @@
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/heatmap.css">
 </head>
-<body class="pt-24 pb-12">
+<body class="pt-32 pb-16 min-h-screen flex flex-col">
     <!-- Navbar Placeholder -->
     <div id="navbar"></div>
 
-    <main class="container animate-fade-in">
-        <header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
+    <main class="sf-container animate-fade-in flex-1">
+        <header class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-8">
             <div>
-                <h1 class="text-4xl font-extrabold mb-1">Spatial Guidance</h1>
-                <p class="text-secondary font-medium uppercase tracking-widest text-[0.7rem] opacity-70">Congestion-Aware Pathfinding Engine</p>
+                <h1 class="text-5xl md:text-6xl font-black mb-3 tracking-tighter">Spatial <span class="text-accent">Guidance</span></h1>
+                <p class="text-muted font-bold uppercase tracking-[0.3em] text-[0.7rem] opacity-80">Congestion-Aware Pathfinding & Node Routing</p>
             </div>
-            <div class="glass-panel px-6 py-3 rounded-2xl flex items-center gap-4 bg-white/[0.02]">
-                <div id="liveClock" class="font-mono font-black text-xl text-white">--:--:--</div>
+            <div class="glass-panel px-8 py-4 rounded-2xl flex items-center gap-6 bg-white/[0.03]">
+                <div id="liveClock" class="font-mono font-bold text-2xl text-white tracking-widest">00:00:00</div>
             </div>
         </header>
 
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <div class="find-seat-layout grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
             <!-- Sidebar Controls -->
-            <div class="space-y-6">
-                <div class="glass-panel p-8 bg-white/[0.01]">
-                    <h3 class="text-white font-bold mb-6 text-sm flex items-center gap-2 uppercase tracking-widest opacity-60">
+            <div class="route-sidebar space-y-6 lg:col-span-1">
+                <div class="glass-panel p-6 md:p-8 bg-white/[0.01]">
+                    <h3 class="text-muted font-black mb-8 text-[0.65rem] flex items-center gap-3 uppercase tracking-[0.3em]">
                         <i class="fa-solid fa-route text-accent"></i>
-                        Configuration
+                        Node Configuration
                     </h3>
-                    <form id="seatForm" class="space-y-6">
+                    <form id="seatForm" class="space-y-8">
                         <div>
-                            <label class="block text-[0.6rem] font-black text-slate-500 uppercase tracking-widest mb-3">Entrance Node</label>
-                            <select id="gateSelect" class="w-full bg-slate-900 border border-white/5 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-accent transition-colors appearance-none cursor-pointer">
+                            <label class="block text-[0.6rem] font-black text-muted uppercase tracking-[0.25em] mb-4">Starting Entry Node</label>
+                            <select id="gateSelect" class="w-full bg-black/40 border border-white/10 rounded-xl px-5 py-4 text-sm text-white focus:outline-none focus:border-accent transition-all appearance-none cursor-pointer outline-none">
                                 <option value="Gate 1">Gate 1 (North)</option>
                                 <option value="Gate 2">Gate 2 (East)</option>
                                 <option value="Gate 3">Gate 3 (South)</option>
@@ -45,8 +45,8 @@
                             </select>
                         </div>
                         <div>
-                             <label class="block text-[0.6rem] font-black text-slate-500 uppercase tracking-widest mb-3">Target Seating Zone</label>
-                             <select id="sectionSelect" class="w-full bg-slate-900 border border-white/5 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-accent transition-colors appearance-none cursor-pointer">
+                             <label class="block text-[0.6rem] font-black text-muted uppercase tracking-[0.25em] mb-4">Target Seating Zone</label>
+                             <select id="sectionSelect" class="w-full bg-black/40 border border-white/10 rounded-xl px-5 py-4 text-sm text-white focus:outline-none focus:border-accent transition-all appearance-none cursor-pointer outline-none">
                                  <option value="A">Section A</option>
                                  <option value="B">Section B</option>
                                  <option value="C">Section C</option>
@@ -63,23 +63,29 @@
                                  <option value="N">Section N</option>
                              </select>
                         </div>
-                        <button type="submit" class="w-full bg-accent text-dark font-black py-4 rounded-xl flex items-center justify-center gap-3 hover:scale-[1.02] transition-transform shadow-[0_4px_20px_rgba(0,229,255,0.2)]">
-                            SOLVE ROUTE <i class="fa-solid fa-chevron-right text-xs"></i>
+                        <button type="submit" class="btn btn-primary w-full py-5 text-xs font-black shadow-[0_10px_25px_rgba(0,229,255,0.2)]">
+                            MAP OPTIMAL ROUTE <i class="fa-solid fa-chevron-right ml-2 text-[0.6rem]"></i>
                         </button>
                     </form>
                 </div>
 
                 <!-- Guidance Analytics -->
-                <div id="distanceDisplay" class="glass-panel p-8 bg-white/[0.01] transition-all opacity-0">
-                    <!-- Injected by navigation.js -->
+                <div id="distanceDisplay" class="glass-panel p-6 md:p-8 bg-white/[0.01] transition-all">
+                    <div class="space-y-4">
+                        <div>
+                            <div class="text-slate-400 text-[0.6rem] uppercase font-black tracking-widest mb-2">Guidance Status</div>
+                            <div class="text-white text-lg font-black tracking-tight">Loading...</div>
+                        </div>
+                        <p class="text-[0.75rem] text-slate-400 leading-relaxed">Choose your gate and seating section to calculate the best route.</p>
+                    </div>
                 </div>
             </div>
 
             <!-- Map Viewport -->
-            <div class="lg:col-span-3 glass-panel p-10 bg-transparent flex flex-col items-center justify-center relative overflow-hidden group border-white/[0.05]">
-                <div class="absolute inset-0 bg-accent/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
-                <div class="relative w-full flex justify-center items-center">
-                    <canvas id="findSeatCanvas" width="900" height="700" class="stadium-map"></canvas>
+            <div class="route-map-panel lg:col-span-3 glass-panel p-4 md:p-8 flex flex-col items-center justify-center relative overflow-hidden group border-white/10 bg-black/20">
+                <div class="absolute inset-0 bg-accent/[0.02] opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+                <div class="route-canvas-frame relative w-full flex justify-center items-center aspect-[900/700]">
+                    <canvas id="findSeatCanvas" width="900" height="700" class="stadium-map w-full h-full object-contain"></canvas>
                     <div id="tooltip"></div>
                 </div>
             </div>
@@ -89,7 +95,7 @@
     <!-- Footer Placeholder -->
     <div id="footer"></div>
 
-    <script src="../js/layout.js"></script>
+    <script type="module" src="../js/layout.js"></script>
     <script type="module" src="../js/main.js"></script>
 </body>
 </html>

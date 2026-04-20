@@ -1,8 +1,13 @@
-import { SECTIONS, GATES } from './heatmap.js';
+import { fetchOptimalRoute } from './api.js';
 
 export function initNavigation() {
     const form = document.getElementById('seatForm');
     if (!form) return;
+
+    renderDistanceState({
+        title: 'Loading...',
+        message: 'Choose your gate and seating section to calculate the best route.'
+    });
 
     // Load saved
     const uGate = localStorage.getItem('targetGate');
@@ -10,52 +15,96 @@ export function initNavigation() {
     if (uGate) document.getElementById('gateSelect').value = uGate;
     if (uSec) document.getElementById('sectionSelect').value = uSec;
 
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const g = document.getElementById('gateSelect').value;
         const s = document.getElementById('sectionSelect').value;
         localStorage.setItem('targetGate', g);
         localStorage.setItem('targetSection', s);
-        
-        updateDistanceInfo(g, s);
-        // Dispatch event for heatmap redraw
+
+        renderDistanceState({
+            eyebrow: 'Guidance Status',
+            title: 'Loading...',
+            message: 'Optimizing the least-congested route to your section.'
+        });
+        await solveOptimalRoute(g, s);
         window.dispatchEvent(new Event('navigationUpdate'));
     });
 
-    if (uGate && uSec) updateDistanceInfo(uGate, uSec);
+    if (uGate && uSec) {
+        renderDistanceState({
+            eyebrow: 'Guidance Status',
+            title: 'Loading...',
+            message: 'Restoring your last saved route.'
+        });
+        solveOptimalRoute(uGate, uSec);
+    }
 }
 
-function updateDistanceInfo(g, s) {
-    const gateObj = GATES.find(gt => gt.name === g);
-    if (!gateObj) return;
+async function solveOptimalRoute(g, s) {
+    try {
+        const sectionId = s; // s is just 'A', 'B', etc.
+        const result = await fetchOptimalRoute(g, sectionId);
 
-    // Scale logic placeholder (matches heatmap.js layout)
-    const canvas = document.getElementById('findSeatCanvas');
-    if (!canvas) return;
-    
-    const w = canvas.width, h = canvas.height;
-    const cx = w / 2, cy = h / 2;
-    const scaleFactor = Math.min(w / 1000, h / 700) * 1.3;
-    const secOuterRX = 280 * scaleFactor, secOuterRY = 220 * scaleFactor;
-    const secInnerRX = 180 * scaleFactor, secInnerRY = 140 * scaleFactor;
-
-    const gx = cx + Math.cos(gateObj.angle) * (secOuterRX + 40);
-    const gy = cy + Math.sin(gateObj.angle) * (secOuterRY + 40);
-    
-    const secIndex = SECTIONS.indexOf(s);
-    const secMidA = (secIndex * (Math.PI*2)/SECTIONS.length) - Math.PI/2 + Math.PI/SECTIONS.length;
-    const sx = cx + Math.cos(secMidA) * (secInnerRX + (secOuterRX - secInnerRX)/2);
-    const sy = cy + Math.sin(secMidA) * (secInnerRY + (secOuterRY - secInnerRY)/2);
-    
-    const pxDist = Math.hypot(sx - gx, sy - gy);
-    const distanceMeters = Math.floor(pxDist / 10) * 10; 
-    
-    const display = document.getElementById('distanceDisplay');
-    if (display) {
-        display.innerHTML = `
-            <div class="text-slate-400 text-sm mb-1 uppercase tracking-tighter">Estimated Distance</div>
-            <div class="text-3xl font-black text-cyan-400">~${distanceMeters}m</div>
-        `;
-        display.classList.remove('opacity-0');
+        if (result && result.path?.length) {
+            updateDistanceUI(result);
+            // Store path for heatmap drawing
+            window.currentOptimalPath = result.path;
+            return;
+        }
+    } catch (error) {
+        console.error('Unable to load optimal route:', error);
     }
+
+    window.currentOptimalPath = null;
+    renderDistanceState({
+        eyebrow: 'Guidance Status',
+        title: 'Route unavailable',
+        message: 'We could not load route guidance right now. Please try again in a moment.',
+        toneClass: 'text-amber-400'
+    });
+}
+
+function updateDistanceUI(result) {
+    const display = document.getElementById('distanceDisplay');
+    if (!display) return;
+
+    const hasWeight = Number.isFinite(result.totalWeight);
+    const distMeters = hasWeight ? Math.max(1, Math.floor(result.totalWeight * 5)) : null;
+
+    display.innerHTML = `
+        <div class="mb-4">
+            <div class="text-slate-400 text-[0.6rem] uppercase font-black tracking-widest mb-2">Optimized Path</div>
+            <div class="flex flex-wrap gap-1.5">
+                ${result.path.map(node => `<span class="bg-white/5 border border-white/10 px-2.5 py-1 rounded text-[0.6rem] font-bold text-cyan-400">${node}</span>`).join('<i class="fa-solid fa-chevron-right text-[0.5rem] opacity-30 self-center"></i>')}
+            </div>
+        </div>
+        <div class="space-y-2">
+            <div class="text-slate-400 text-[0.6rem] uppercase font-black tracking-widest">Estimated Journey</div>
+            <div class="text-3xl font-black text-white">${distMeters === null ? 'Loading...' : `~${distMeters}m`}</div>
+            <div class="text-[0.6rem] text-emerald-400 font-bold uppercase tracking-tighter">
+               <i class="fa-solid fa-bolt"></i> Congestion-Aware Optimal
+            </div>
+        </div>
+    `;
+}
+
+function renderDistanceState({
+    eyebrow = 'Guidance Status',
+    title,
+    message,
+    toneClass = 'text-white'
+}) {
+    const display = document.getElementById('distanceDisplay');
+    if (!display) return;
+
+    display.innerHTML = `
+        <div class="space-y-4">
+            <div>
+                <div class="text-slate-400 text-[0.6rem] uppercase font-black tracking-widest mb-2">${eyebrow}</div>
+                <div class="text-lg font-black tracking-tight ${toneClass}">${title}</div>
+            </div>
+            <p class="text-[0.75rem] text-slate-400 leading-relaxed">${message}</p>
+        </div>
+    `;
 }

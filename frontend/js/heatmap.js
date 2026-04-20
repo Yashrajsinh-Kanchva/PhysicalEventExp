@@ -218,64 +218,48 @@ function drawStructuredStadium(ctx, w, h, timestamp, mode) {
     });
 
     // 5. PATHFINDER ROUTE (Find My Seat Mode)
-    if (mode === 'find-seat') {
-        const targetGateName = localStorage.getItem('targetGate');
-        const targetSecName = localStorage.getItem('targetSection');
-        
-        if (targetGateName && targetSecName) {
-            const gate = GATES.find(g => g.name === targetGateName);
-            const secIndex = SECTIONS.indexOf(targetSecName);
-            
-            if (gate && secIndex !== -1) {
-                const secAngle = (secIndex * (Math.PI * 2) / SECTIONS.length) - Math.PI / 2 + (Math.PI / SECTIONS.length);
-                const gateAngle = gate.angle;
-                
-                // Draw path from Gate to WalkPath
-                const gateR = secOuterRX + 80 * scaleFactor;
-                const gx = cx + Math.cos(gateAngle) * gateR;
-                const gy = cy + Math.sin(gateAngle) * gateR;
-                
-                const px = cx + Math.cos(gateAngle) * walkRX;
-                const py = cy + Math.sin(gateAngle) * walkRY;
+    // 5. DYNAMIC PATHFINDER ROUTE (Dijkstra Integrated)
+    if (mode === 'find-seat' && window.currentOptimalPath) {
+        ctx.save();
+        ctx.setLineDash([10, 5]);
+        ctx.lineDashOffset = -timestamp / 50;
+        ctx.strokeStyle = '#00e5ff';
+        ctx.lineWidth = 5;
+        ctx.shadowBlur = 15;
+        ctx.shadowColor = '#00e5ff';
+        ctx.lineJoin = 'round';
+        ctx.lineCap = 'round';
 
-                ctx.save();
-                ctx.setLineDash([10, 5]);
-                ctx.lineDashOffset = -timestamp / 50;
-                ctx.strokeStyle = '#00e5ff';
-                ctx.lineWidth = 4;
-                ctx.shadowBlur = 15;
-                ctx.shadowColor = '#00e5ff';
-                
-                // Gate to Walk Track
-                ctx.beginPath();
-                ctx.moveTo(gx, gy);
-                ctx.lineTo(px, py);
-                ctx.stroke();
-                
-                // Path Along Track
-                ctx.beginPath();
-                // Ensure shortest path around circle
-                let diff = secAngle - gateAngle;
-                while (diff < -Math.PI) diff += Math.PI * 2;
-                while (diff > Math.PI) diff -= Math.PI * 2;
-                
-                ctx.ellipse(cx, cy, walkRX, walkRY, 0, gateAngle, gateAngle + diff, diff < 0);
-                ctx.stroke();
-                
-                // Track to Section
-                const sxOuter = cx + Math.cos(secAngle) * (secInnerRX + (secOuterRX - secInnerRX) / 2);
-                const syOuter = cy + Math.sin(secAngle) * (secInnerRY + (secOuterRY - secInnerRY) / 2);
-                const sxInner = cx + Math.cos(secAngle) * walkRX;
-                const syInner = cy + Math.sin(secAngle) * walkRY;
-                
-                ctx.beginPath();
-                ctx.moveTo(sxInner, syInner);
-                ctx.lineTo(sxOuter, syOuter);
-                ctx.stroke();
-                
-                ctx.restore();
+        ctx.beginPath();
+        window.currentOptimalPath.forEach((nodeId, idx) => {
+            let nodeX, nodeY;
+
+            // Find Gate Position
+            const gate = GATES.find(g => g.name === nodeId);
+            if (gate) {
+                const radiusX = secOuterRX + 80 * scaleFactor;
+                const radiusY = secOuterRY + 80 * scaleFactor;
+                nodeX = cx + Math.cos(gate.angle) * radiusX;
+                nodeY = cy + Math.sin(gate.angle) * radiusY;
+            } else {
+                // Find Section Position
+                const secIndex = SECTIONS.indexOf(nodeId);
+                if (secIndex !== -1) {
+                    const angle = (secIndex * (Math.PI * 2) / SECTIONS.length) - Math.PI / 2 + (Math.PI / SECTIONS.length);
+                    nodeX = cx + Math.cos(angle) * walkRX;
+                    nodeY = cy + Math.sin(angle) * walkRY;
+                }
             }
-        }
+
+            if (nodeX !== undefined && nodeY !== undefined) {
+                if (idx === 0) ctx.moveTo(nodeX, nodeY);
+                else ctx.lineTo(nodeX, nodeY);
+            }
+        });
+        ctx.stroke();
+        ctx.restore();
+    } else if (mode === 'find-seat') {
+        // Fallback or placeholder...
     }
 }
 

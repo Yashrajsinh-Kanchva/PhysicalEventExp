@@ -1,5 +1,10 @@
+import { loginWithGoogle, logout, subscribeToAuthChanges } from './auth.js';
+
 document.addEventListener('DOMContentLoaded', () => {
-    loadComponent('/components/navbar.html', 'navbar', initNavbar);
+    loadComponent('/components/navbar.html', 'navbar', () => {
+        initNavbar();
+        setupAuthHandler();
+    });
     loadComponent('/components/footer.html', 'footer');
 });
 
@@ -15,6 +20,48 @@ async function loadComponent(url, elementId, callback) {
     }
 }
 
+function setupAuthHandler() {
+    const authContainer = document.getElementById('authContainer');
+
+    subscribeToAuthChanges((user) => {
+        if (!authContainer) return;
+
+        if (user) {
+            authContainer.innerHTML = `
+                <div class="flex items-center gap-2 group cursor-pointer relative" id="userProfile">
+                    <div class="flex flex-col items-end mr-1">
+                        <span class="text-[0.6rem] font-bold text-white leading-tight">${user.displayName}</span>
+                        <span id="logoutBtn" class="text-[0.5rem] font-black text-accent uppercase tracking-tighter hover:text-white transition-colors" style="cursor:pointer">Sign Out</span>
+                    </div>
+                    <img src="${user.photoURL}" class="w-8 h-8 rounded-lg border border-accent/20 group-hover:border-accent/60 transition-all shadow-lg" alt="Profile">
+                </div>
+            `;
+            const logoutTrigger = document.getElementById('logoutBtn');
+            if(logoutTrigger) logoutTrigger.addEventListener('click', (e) => {
+                e.stopPropagation();
+                logout();
+            });
+        } else {
+            const isGuest = sessionStorage.getItem('sf_guest_mode') === 'true';
+            if (isGuest) {
+                 authContainer.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <span class="text-[0.6rem] font-bold text-slate-400 uppercase tracking-widest">Guest Access</span>
+                        <i id="guestExit" class="fa-solid fa-right-from-bracket text-[0.7rem] text-accent/60 hover:text-accent cursor-pointer transition-colors"></i>
+                    </div>
+                `;
+                const exitTrigger = document.getElementById('guestExit');
+                if(exitTrigger) exitTrigger.addEventListener('click', () => {
+                    sessionStorage.removeItem('sf_guest_mode');
+                    window.location.href = '/pages/login.html';
+                });
+            } else if (!window.location.pathname.includes('login.html')) {
+                window.location.href = '/pages/login.html';
+            }
+        }
+    });
+}
+
 function initNavbar() {
     const path = window.location.pathname;
     const links = document.querySelectorAll('#navLinks a');
@@ -26,28 +73,17 @@ function initNavbar() {
         }
     });
 
-    // 2. Mobile Menu Toggle
     const mobileBtn = document.getElementById('mobileMenuBtn');
     const mobileMenu = document.getElementById('mobileMenu');
     if (mobileBtn && mobileMenu) {
         mobileBtn.addEventListener('click', () => {
             mobileMenu.classList.toggle('hidden');
-            mobileMenu.classList.toggle('flex');
         });
     }
 
-    // 3. Show Cart Button on Food Page only
     if (path.includes('food-order')) {
         const cartBtn = document.getElementById('cartToggleNav');
         if (cartBtn) cartBtn.classList.remove('hidden');
     }
-
-    // 4. Cart Click Logic (Triggered here to link to food.js logic)
-    const cartToggle = document.getElementById('cartToggleNav');
-    if (cartToggle) {
-        cartToggle.addEventListener('click', () => {
-            const drawer = document.getElementById('cartDrawerOverlay');
-            if (drawer) drawer.classList.remove('hidden');
-        });
-    }
 }
+

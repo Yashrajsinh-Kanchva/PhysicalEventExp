@@ -1,17 +1,18 @@
-const fs = require('fs');
-const path = require('path');
+const { analyzeCrowdData } = require('../services/aiService');
+const { findOptimalRoute } = require('../services/routingService');
+const { saveCheckData, getHistoryData } = require('../services/dbService');
+const { z } = require('zod');
 
-const dataPath = path.join(__dirname, '../../data/checks.json');
-
-if (!fs.existsSync(dataPath)) {
-    const dir = path.dirname(dataPath);
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-    fs.writeFileSync(dataPath, JSON.stringify([]));
-}
+// Schema for input validation
+const checkSchema = z.object({
+    userId: z.string().optional(),
+    gate: z.string(),
+    section: z.string(),
+    timestamp: z.string().optional()
+});
 
 const generateSimulatedData = () => {
     const randomTime = () => Math.floor(Math.random() * 20) + 1;
-    
     const zones = {
         gates: { "Gate 1": randomTime(), "Gate 2": randomTime(), "Gate 3": randomTime(), "Gate 4": randomTime() },
         restrooms: { "Men 1": randomTime(), "Men 2": randomTime(), "Women 1": randomTime(), "Women 2": randomTime() },
@@ -30,15 +31,9 @@ const generateSimulatedData = () => {
     let minP = { area: '', wait: 99 };
     let bestR = { area: '', wait: 99 };
 
-    // Calculate highest congestion
-    for(const key in zones.gates) {
-        if(zones.gates[key] > maxC.wait) maxC = { area: key, wait: zones.gates[key] };
-        if(zones.gates[key] < minP.wait) minP = { area: key, wait: zones.gates[key] };
-    }
-    // Calculate best restroom
-    for(const key in zones.restrooms) {
-        if(zones.restrooms[key] < bestR.wait) bestR = { area: key, wait: zones.restrooms[key] };
-    }
+    for(const k in zones.gates) if(zones.gates[k] > maxC.wait) maxC = { area: k, wait: zones.gates[k] };
+    for(const k in zones.gates) if(zones.gates[k] < minP.wait) minP = { area: k, wait: zones.gates[k] };
+    for(const k in zones.restrooms) if(zones.restrooms[k] < bestR.wait) bestR = { area: k, wait: zones.restrooms[k] };
 
     return {
         timestamp: new Date().toISOString(),
@@ -49,34 +44,62 @@ const generateSimulatedData = () => {
     };
 };
 
-exports.getCrowdData = (req, res) => {
-    const data = generateSimulatedData();
-    res.json(data);
+// Cached telemetry (simplified for hackathon live feel)
+let currentTelemetry = generateSimulatedData();
+setInterval(() => { currentTelemetry = generateSimulatedData(); }, 10000); // 10s for more dynamic demo
+
+exports.getCrowdData = async (req, res) => {
+    res.json(currentTelemetry);
 };
 
-exports.saveCheck = (req, res) => {
+exports.aiPredict = async (req, res) => {
     try {
-        const newData = req.body;
-        let history = [];
-        if (fs.existsSync(dataPath)) {
-            const fileContent = fs.readFileSync(dataPath, 'utf8');
-            history = fileContent ? JSON.parse(fileContent) : [];
-        }
-        history.unshift(newData);
-        if (history.length > 10) history = history.slice(0, 10);
-        fs.writeFileSync(dataPath, JSON.stringify(history, null, 2));
-        res.status(200).json({ success: true, message: 'Saved' });
+        const { goal } = req.body;
+        const result = await analyzeCrowdData(currentTelemetry, goal);
+        res.json(result);
     } catch (error) {
-        res.status(500).json({ success: false, error: 'Failed' });
+        res.status(500).json({ error: "AI Analysis Failed" });
     }
 };
 
-exports.getHistory = (req, res) => {
+exports.calculateRoute = async (req, res) => {
     try {
-        if (!fs.existsSync(dataPath)) return res.json([]);
-        const fileContent = fs.readFileSync(dataPath, 'utf8');
-        res.json(fileContent ? JSON.parse(fileContent) : []);
+        const { start, end } = req.query;
+        if (!start || !end) return res.status(400).json({ error: "Start and End required" });
+        
+        const result = findOptimalRoute(start, end, currentTelemetry);
+        res.json(result);
     } catch (error) {
-        res.status(500).json({ success: false, error: 'Failed' });
+        res.status(500).json({ error: "Route calculation failed" });
     }
+};
+
+exports.saveCheck = async (req, res) => {
+    try {
+        const validated = checkSchema.parse(req.body);
+        const result = await saveCheckData(validated);
+        res.status(201).json(result);
+    } catch (error) {
+        res.status(400).json({ error: error.errors || "Invalid Input" });
+    }
+};
+
+exports.getHistory = async (req, res) => {
+    try {
+        const history = await getHistoryData();
+        res.json(history);
+    } catch (error) {
+        res.status(500).json({ error: "Failed to fetch history" });
+    }
+};
+
+exports.getFirebaseConfig = (req, res) => {
+    res.json({
+        apiKey: process.env.FIREBASE_API_KEY,
+        authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+        projectId: process.env.FIREBASE_PROJECT_ID,
+        storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+        messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+        appId: process.env.FIREBASE_APP_ID
+    });
 };

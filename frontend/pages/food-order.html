@@ -10,61 +10,64 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link rel="stylesheet" href="../css/styles.css">
 </head>
-<body class="pt-24 pb-12">
+<body class="pt-32 pb-16">
     <!-- Navbar Placeholder -->
     <div id="navbar"></div>
 
-    <main class="container animate-fade-in">
+    <main class="sf-container animate-fade-in">
         <!-- Header -->
-        <header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
+        <header class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-8">
             <div>
-                <h1 class="text-4xl font-extrabold mb-1">Concession Services</h1>
-                <p class="text-secondary font-medium uppercase tracking-widest text-[0.7rem] opacity-70">Pre-order for Express In-Seat Pickup</p>
+                <h1 class="text-5xl md:text-6xl font-black mb-3 tracking-tighter">Concession <span class="text-accent">Services</span></h1>
+                <p class="text-muted font-bold uppercase tracking-[0.3em] text-[0.7rem] opacity-80">Pre-order for Express In-Seat Pickup & Queue-less Checkout</p>
             </div>
-            <button class="cart-toggle glass-panel px-6 py-3 rounded-2xl flex items-center gap-4 bg-white/[0.02] border-accent/20 hover:border-accent group">
+            <button class="cart-toggle btn px-8 py-4 rounded-2xl flex items-center gap-6 bg-white/[0.03] border-accent/20 hover:border-accent group">
                 <div class="relative">
-                    <i class="fa-solid fa-cart-shopping text-accent text-xl"></i>
-                    <span class="cart-badge absolute -top-2 -right-3 bg-red-500 text-white text-[10px] font-black w-5 h-5 flex items-center justify-center rounded-full border-2 border-dark animate-bounce">0</span>
+                    <i class="fa-solid fa-cart-shopping text-accent text-2xl"></i>
+                    <span class="cart-badge absolute -top-2 -right-3 bg-red-500 text-white text-[10px] font-black w-5 h-5 flex items-center justify-center rounded-full border-2 border-[#02040a] animate-bounce">0</span>
                 </div>
-                <span class="text-sm font-bold text-white tracking-wide">VIEW CART</span>
+                <span class="text-sm font-black text-white tracking-widest uppercase">VIEW CART</span>
             </button>
         </header>
 
         <!-- Category Filters -->
-        <div class="flex flex-wrap gap-4 mb-12">
-            <button data-category="all" class="cat-filter active px-8 py-3 rounded-2xl glass-panel text-sm font-black uppercase tracking-widest border-accent/40 bg-accent/10 text-accent transition-all">All Items</button>
-            <button data-category="Mains" class="cat-filter px-8 py-3 rounded-2xl glass-panel text-sm font-black uppercase tracking-widest border-white/5 hover:border-white/20 text-slate-400 hover:text-white transition-all">Mains</button>
-            <button data-category="Snacks" class="cat-filter px-8 py-3 rounded-2xl glass-panel text-sm font-black uppercase tracking-widest border-white/5 hover:border-white/20 text-slate-400 hover:text-white transition-all">Snacks</button>
-            <button data-category="Drinks" class="cat-filter px-8 py-3 rounded-2xl glass-panel text-sm font-black uppercase tracking-widest border-white/5 hover:border-white/20 text-slate-400 hover:text-white transition-all">Drinks</button>
+        <div class="flex flex-wrap gap-4 mb-16">
+            <button data-category="all" class="cat-filter active px-8 py-3.5 rounded-xl border border-accent/40 bg-accent/10 text-accent text-[0.7rem] font-black uppercase tracking-[0.2em] transition-all">All Items</button>
+            <button data-category="Mains" class="cat-filter px-8 py-3.5 rounded-xl border border-white/5 bg-white/[0.02] text-muted text-[0.7rem] font-black uppercase tracking-[0.2em] hover:text-white hover:border-white/20 transition-all">Mains</button>
+            <button data-category="Snacks" class="cat-filter px-8 py-3.5 rounded-xl border border-white/5 bg-white/[0.02] text-muted text-[0.7rem] font-black uppercase tracking-[0.2em] hover:text-white hover:border-white/20 transition-all">Snacks</button>
+            <button data-category="Drinks" class="cat-filter px-8 py-3.5 rounded-xl border border-white/5 bg-white/[0.02] text-muted text-[0.7rem] font-black uppercase tracking-[0.2em] hover:text-white hover:border-white/20 transition-all">Drinks</button>
         </div>
 
         <!-- Product Grid -->
-        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <!-- Items injected by food.js -->
+        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Items dynamically injected by food.js -->
         </div>
     </main>
 
     <!-- Cart Drawer -->
-    <div id="cartDrawerOverlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[2000] hidden transition-all">
-        <div id="cartDrawer" class="absolute right-0 top-0 h-full w-full max-w-md bg-dark border-l border-white/5 shadow-2xl flex flex-col pt-24">
-            <div class="px-8 flex justify-between items-center mb-8">
-                <h2 class="text-2xl font-black">Your Order</h2>
-                <button class="cart-toggle text-slate-500 hover:text-white text-2xl">✕</button>
+    <div id="cartDrawerOverlay" class="fixed inset-0 bg-black/80 backdrop-blur-md z-[2000] hidden transition-all duration-500">
+        <div id="cartDrawer" class="absolute right-0 top-0 h-full w-full max-w-md bg-[#02040a] border-l border-white/10 shadow-[0_0_100px_rgba(0,0,0,0.8)] flex flex-col pt-32 animate-slide-in">
+            <div class="px-10 flex justify-between items-center mb-10">
+                <h2 class="text-3xl font-black tracking-tighter">Your Order</h2>
+                <button class="cart-toggle text-muted hover:text-white text-2xl transition-colors">✕</button>
             </div>
             
-            <div id="cartItemsContainer" class="flex-1 overflow-y-auto px-8 space-y-6">
-                <!-- Cart items list -->
+            <div id="cartItemsContainer" class="flex-1 overflow-y-auto px-10 space-y-8">
+                <!-- Cart items list injected here -->
             </div>
 
-            <div class="p-8 border-t border-white/5 space-y-4">
+            <div class="p-10 border-t border-white/5 bg-white/[0.01] space-y-6">
                 <div class="flex justify-between items-center">
-                    <span class="text-secondary font-bold uppercase tracking-widest text-xs">Estimated Total</span>
-                    <span id="cartTotal" class="text-3xl font-black text-white">₹0.00</span>
+                    <span class="text-muted font-black uppercase tracking-[0.2em] text-[0.6rem]">Estimated Total</span>
+                    <span id="cartTotal" class="text-4xl font-black text-white tracking-tighter">₹0.00</span>
                 </div>
-                <button onclick="checkout()" class="w-full bg-accent text-dark font-black py-4 rounded-2xl text-lg hover:scale-[1.02] transition-transform shadow-[0_4px_30px_rgba(0,229,255,0.3)]">
-                    CONFIRM CHECKOUT 🚀
+                <button onclick="checkout()" class="btn btn-primary w-full py-5 text-xs font-black shadow-[0_15px_30px_rgba(0,229,255,0.25)]">
+                    CONFIRM CHECKOUT <i class="fa-solid fa-rocket ml-3"></i>
                 </button>
-                <p class="text-[0.65rem] text-center text-slate-500 font-bold uppercase tracking-widest">Pickup at Section B - Counter 4</p>
+                <div class="flex items-center justify-center gap-3">
+                    <span class="w-1.5 h-1.5 bg-accent rounded-full animate-pulse"></span>
+                    <p class="text-[0.6rem] text-center text-muted font-black uppercase tracking-[0.25em]">Pickup at Section B - Node 4</p>
+                </div>
             </div>
         </div>
     </div>
@@ -72,7 +75,8 @@
     <!-- Footer Placeholder -->
     <div id="footer"></div>
 
-    <script src="../js/layout.js"></script>
+
+    <script type="module" src="../js/layout.js"></script>
     <script type="module" src="../js/main.js"></script>
 </body>
 </html>
