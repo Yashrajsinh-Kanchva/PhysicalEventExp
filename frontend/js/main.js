@@ -9,10 +9,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 1. Initial State
     initClock();
     const initialData = await fetchCrowdData();
-    
+
     // 2. Page Specific Init
     const path = window.location.pathname;
-    
+
     // Check path for specific initials
     if (path.includes('dashboard')) {
         initDashboard(initialData);
@@ -29,8 +29,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 3. Polling for Live Telemetry
     setInterval(async () => {
         const newData = await fetchCrowdData();
-        if(!newData) return;
-        
+        if (!newData) return;
+
         if (path.includes('dashboard')) updateDashboard(newData);
         if (path.includes('heatmap')) {
             updateHeatmapData(newData);
@@ -81,7 +81,7 @@ export function updateCartCount(count) {
 // Global checkout expose for simplicity in this prototype
 window.checkout = () => {
     const cart = JSON.parse(localStorage.getItem('stadiumFlow_cart') || '[]');
-    if(cart.length === 0) {
+    if (cart.length === 0) {
         showToast("⚠️ Your cart is empty!");
         return;
     }

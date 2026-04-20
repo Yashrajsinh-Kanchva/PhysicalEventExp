@@ -3,12 +3,23 @@ const { findOptimalRoute } = require('../services/routingService');
 const { saveCheckData, getHistoryData } = require('../services/dbService');
 const { z } = require('zod');
 
+const VALID_GATES = ['Gate 1', 'Gate 2', 'Gate 3', 'Gate 4'];
+const VALID_SECTIONS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N'];
+
 // Schema for input validation
 const checkSchema = z.object({
     userId: z.string().optional(),
-    gate: z.string(),
-    section: z.string(),
+    gate: z.string().trim().refine((value) => VALID_GATES.includes(value), {
+        message: `Gate must be one of: ${VALID_GATES.join(', ')}`
+    }),
+    section: z.string().trim().refine((value) => VALID_SECTIONS.includes(value), {
+        message: `Section must be one of: ${VALID_SECTIONS.join(', ')}`
+    }),
     timestamp: z.string().optional()
+});
+
+const aiRequestSchema = z.object({
+    goal: z.string().trim().min(1).max(200).optional()
 });
 
 const generateSimulatedData = () => {
@@ -54,20 +65,39 @@ exports.getCrowdData = async (req, res) => {
 
 exports.aiPredict = async (req, res) => {
     try {
-        const { goal } = req.body;
+        const { goal } = aiRequestSchema.parse(req.body || {});
         const result = await analyzeCrowdData(currentTelemetry, goal);
         res.json(result);
     } catch (error) {
+        if (error instanceof z.ZodError) {
+            return res.status(400).json({ error: error.issues.map((issue) => issue.message).join('; ') });
+        }
         res.status(500).json({ error: "AI Analysis Failed" });
     }
 };
 
 exports.calculateRoute = async (req, res) => {
     try {
-        const { start, end } = req.query;
-        if (!start || !end) return res.status(400).json({ error: "Start and End required" });
-        
+        const start = typeof req.query.start === 'string' ? req.query.start.trim() : '';
+        const end = typeof req.query.end === 'string' ? req.query.end.trim() : '';
+
+        if (!start || !end) {
+            return res.status(400).json({ error: "Query params 'start' and 'end' are required." });
+        }
+
+        if (!VALID_GATES.includes(start)) {
+            return res.status(400).json({ error: `Invalid start gate. Allowed values: ${VALID_GATES.join(', ')}` });
+        }
+
+        if (!VALID_SECTIONS.includes(end)) {
+            return res.status(400).json({ error: `Invalid destination section. Allowed values: ${VALID_SECTIONS.join(', ')}` });
+        }
+
         const result = findOptimalRoute(start, end, currentTelemetry);
+        if (!result || !Array.isArray(result.path) || result.path.length === 0 || !Number.isFinite(result.totalWeight)) {
+            return res.status(400).json({ error: "Unable to calculate route for the provided inputs." });
+        }
+
         res.json(result);
     } catch (error) {
         res.status(500).json({ error: "Route calculation failed" });
@@ -80,7 +110,10 @@ exports.saveCheck = async (req, res) => {
         const result = await saveCheckData(validated);
         res.status(201).json(result);
     } catch (error) {
-        res.status(400).json({ error: error.errors || "Invalid Input" });
+        if (error instanceof z.ZodError) {
+            return res.status(400).json({ error: error.issues.map((issue) => issue.message).join('; ') });
+        }
+        res.status(400).json({ error: "Invalid Input" });
     }
 };
 
