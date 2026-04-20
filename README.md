@@ -1,101 +1,74 @@
 # StadiumFlow
 
-**AI-powered crowd intelligence and congestion-aware stadium routing for safer, faster fan movement.**
+**AI-powered crowd-aware navigation system for managing congestion in large venues.**
 
-## 🚀 Project Title & Tagline
-**StadiumFlow**
+## Overview
+Crowd congestion is a serious problem in stadiums and other large venues. Poor routing leads to bottlenecks at gates, slower movement, and a worse fan experience.
 
-A smart venue operations system that combines route optimization, live crowd telemetry simulation, and Gemini-powered analysis to improve navigation inside large event spaces.
+StadiumFlow addresses this with two core ideas:
+- congestion-aware route planning using a graph-based routing model
+- AI-assisted crowd analysis using Google Gemini
 
-## 📖 Overview
-Large venues fail when movement becomes unpredictable. Fans queue at the wrong gates, sections get congested, and facility access becomes inefficient. StadiumFlow addresses that problem by turning stadium movement into a decision system.
+The system combines simulated crowd telemetry, route calculation, visual monitoring, and authentication into a single web application designed for a demo and hackathon setting.
 
-The project models the venue as a graph, tracks section and gate congestion, visualizes crowd pressure on an interactive heatmap, and computes low-friction routes from entry gates to seating zones. On top of that, Gemini is used to generate AI-based crowd analysis from the current telemetry snapshot.
+## Live Demo
+- https://stadiumflow.onrender.com
 
-For a real stadium, this matters because better movement decisions reduce crowd build-up, improve fan experience, and give operators a clearer view of bottlenecks before they become operational issues.
+## GitHub
+- https://github.com/Yashrajsinh-Kanchva/PhysicalEventExp
 
-## 🎯 Features
-- **Smart Routing with Dijkstra**: Computes congestion-aware paths from gates to seating sections using weighted graph traversal.
-- **Gemini-Powered Analysis**: Sends the current telemetry snapshot to Google Gemini for structured crowd predictions and route guidance commentary.
-- **Interactive Crowd Heatmap**: Renders stadium sections, gates, and facilities on canvas with density-based visual feedback.
-- **Find My Seat Flow**: Lets a user choose an entry gate and target section, then visualizes the route directly on the stadium map.
-- **Dynamic Data Refresh**: Polls updated telemetry on a timed interval so dashboard and map views reflect changing crowd conditions.
-- **Responsive Dashboard UI**: Supports desktop and mobile layouts for dashboard, heatmap, food ordering, login, and navigation pages.
-- **Firebase-Based Authentication**: Supports Google sign-in through Firebase Auth when environment configuration is provided.
-- **Optional Firestore Persistence**: Includes a Firestore-backed save/history service with local in-memory fallback for demo mode.
+## Features
+- **Smart route planning** using Dijkstra's algorithm with congestion-adjusted weights
+- **AI-based crowd prediction** through Google Gemini API
+- **Heatmap visualization** for sections, gates, and facilities
+- **Find My Seat navigation** with route drawing on the stadium map
+- **Dynamic routing data updates** through periodic telemetry refresh
+- **Firebase Google Authentication** with guest mode fallback
+- **Responsive UI** across dashboard, heatmap, navigation, login, and food-order pages
 
-## 🧠 How It Works
-### 1. Venue Graph and Routing
-The stadium is represented as a graph of:
-- Entry gates
-- Seating sections
-- Connections between adjacent sections
+## How It Works
+### Graph-based routing
+- The venue is modeled as a graph of gates and seating sections.
+- Each edge has a base distance cost.
+- Current congestion is added as an extra weight during route calculation.
+- The backend returns the lowest-cost path for a selected gate and section.
 
-Each edge has a base movement cost. During route calculation, the system adds congestion cost from current telemetry to produce a weighted path. The backend uses Dijkstra's algorithm to return the lowest-cost route for the selected start gate and destination section.
+### API-driven crowd data
+- The backend generates simulated crowd telemetry for:
+  - gates
+  - sections
+  - restrooms
+  - food courts
+  - merchandise counters
+- This data is served through API endpoints and consumed by the frontend for dashboards, maps, and route decisions.
 
-### 2. Crowd Telemetry
-The backend generates real-time-like telemetry snapshots for:
-- Gates
-- Seating sections
-- Restrooms
-- Food courts
-- Merchandise counters
+### AI integration
+- The current telemetry snapshot is sent to Gemini when AI analysis is requested.
+- Gemini returns structured output for hotspot prediction, route guidance, and reasoning.
 
-These values are exposed through REST endpoints and consumed by the frontend to power:
-- KPI cards
-- Operational panels
-- Chart.js section analytics
-- Heatmap coloring
-- Routing decisions
+## Tech Stack
+- **Frontend**
+  - HTML
+  - CSS
+  - JavaScript
+  - Tailwind CSS
+  - Bootstrap
+- **Backend**
+  - Node.js
+  - Express.js
+- **Authentication**
+  - Firebase Authentication
+- **AI**
+  - Google Gemini API
+- **Visualization**
+  - HTML5 Canvas
+  - Chart.js
+- **Validation / API utilities**
+  - Zod
+  - Axios
+  - express-rate-limit
 
-### 3. AI Prediction with Gemini
-When AI analysis is triggered, the backend packages the current telemetry snapshot into a structured prompt and sends it to Google Gemini. Gemini returns:
-- Predicted hotspot areas
-- A route or movement suggestion
-- Human-readable reasoning
-- A qualitative risk level
-
-### 4. Decision Flow
-The system flow is:
-1. Generate or refresh crowd telemetry.
-2. Render the latest congestion state in the dashboard and map.
-3. Compute route cost using graph distance plus congestion penalty.
-4. Optionally run Gemini analysis on the same data snapshot.
-5. Present the result as a route overlay, KPI updates, and AI recommendations.
-
-## ☁️ Google Services Used
-### Gemini API
-Google Gemini is used in the backend AI service to analyze the current crowd snapshot and return structured predictions. In this project, Gemini is responsible for:
-- Identifying likely high-risk crowd zones
-- Suggesting safer movement strategies
-- Producing reasoning that can be shown in the dashboard
-
-Relevant implementation:
-- `backend/services/aiService.js`
-- `backend/controllers/crowdController.js`
-
-### Firebase
-Firebase is used in two ways when configured:
-- **Firebase Auth** for Google sign-in on the frontend
-- **Firestore** as an optional backend persistence layer for saved check/history data
-
-If Firestore credentials are not available, the project falls back to local in-memory storage so the demo can still run.
-
-Relevant implementation:
-- `frontend/js/auth.js`
-- `backend/services/dbService.js`
-- `backend/routes/api.js`
-
-## 🛠️ Tech Stack
-- **Frontend**: HTML5, CSS3, JavaScript (ES modules), Tailwind CSS, Bootstrap-ready utility workflow
-- **Backend**: Node.js, Express.js
-- **Algorithms**: Dijkstra shortest path with congestion-adjusted weights
-- **AI**: Google Gemini API (`@google/generative-ai`)
-- **Auth / Data**: Firebase Auth, Firebase Admin SDK, Firestore
-- **Visualization**: HTML5 Canvas, Chart.js
-- **Validation / Protection**: Zod, express-rate-limit
-
-## ⚙️ Setup Instructions
+## Setup Instructions
 ### 1. Clone the repository
 ```bash
 git clone https://github.com/Yashrajsinh-Kanchva/PhysicalEventExp.git
@@ -108,10 +81,8 @@ npm install
 ```
 
 ### 3. Create a `.env` file
-Use the provided `.env.example` as a reference.
-
 ```env
-GEMINI_API_KEY=your_api_key_here
+GEMINI_API_KEY=your_key
 PORT=3000
 
 FIREBASE_API_KEY=your_web_api_key
@@ -120,116 +91,89 @@ FIREBASE_PROJECT_ID=your_project_id
 FIREBASE_STORAGE_BUCKET=your_project.appspot.com
 FIREBASE_MESSAGING_SENDER_ID=your_sender_id
 FIREBASE_APP_ID=your_app_id
+```
 
-# Optional for backend Firestore persistence
+Optional for backend Firestore persistence:
+```env
 FIREBASE_SERVICE_ACCOUNT={"type":"service_account",...}
 ```
 
 ### 4. Run the server
+Actual backend entry file:
+
+```bash
+node backend/server.js
+```
+
+You can also use:
+
 ```bash
 npm start
 ```
 
 ### 5. Open the app
-Visit:
-
 ```text
 http://localhost:3000
 ```
 
-Core routes:
-- `/index.html`
-- `/pages/dashboard.html`
-- `/pages/heatmap.html`
-- `/pages/navigation.html`
-- `/pages/food-order.html`
-- `/pages/login.html`
-
-## 📊 Project Structure
+## Project Structure
 ```text
 PhysicalEventExp/
+├── frontend/
+│   ├── assets/
+│   ├── components/
+│   ├── css/
+│   ├── js/
+│   ├── pages/
+│   └── index.html
 ├── backend/
 │   ├── controllers/
-│   │   └── crowdController.js
+│   ├── middleware/
 │   ├── routes/
-│   │   └── api.js
 │   ├── services/
-│   │   ├── aiService.js
-│   │   ├── dbService.js
-│   │   └── routingService.js
 │   ├── tests/
-│   │   └── routing.test.js
+│   ├── utils/
 │   └── server.js
-├── frontend/
-│   ├── components/
-│   │   ├── footer.html
-│   │   └── navbar.html
-│   ├── css/
-│   │   ├── heatmap.css
-│   │   └── styles.css
-│   ├── js/
-│   │   ├── api.js
-│   │   ├── auth.js
-│   │   ├── dashboard.js
-│   │   ├── food.js
-│   │   ├── heatmap.js
-│   │   ├── layout.js
-│   │   ├── main.js
-│   │   ├── menu.js
-│   │   ├── navigation.js
-│   │   └── utils.js
-│   ├── pages/
-│   │   ├── dashboard.html
-│   │   ├── food-order.html
-│   │   ├── heatmap.html
-│   │   ├── login.html
-│   │   └── navigation.html
-│   └── index.html
-├── .env.example
-├── package-lock.json
+├── tests/
+│   └── basic.test.js
 ├── package.json
 └── README.md
 ```
 
-## 🧪 Testing
-The project currently includes a basic routing sanity test for the pathfinding service.
+Important app files:
+- `frontend/pages/` contains the main UI pages
+- `frontend/js/` contains client-side logic
+- `backend/server.js` starts the Express server
+- `backend/routes/api.js` defines API routes
+- `backend/services/routingService.js` contains Dijkstra-based routing
 
-Run it with:
+## Testing
+- Basic API testing is implemented using a lightweight Node.js script:
+  - `tests/basic.test.js`
+- Current automated checks include:
+  - server startup
+  - `/api/crowd-data`
+  - `/api/route`
+  - invalid and empty route input handling
+- Endpoint validation has been added for route queries and request bodies.
+
+Run tests with:
 ```bash
-node backend/tests/routing.test.js
+npm test
 ```
 
-What it checks:
-- Direct gate-to-section routing
-- Congestion-aware route selection behavior
+## Assumptions
+- Crowd data is simulated rather than connected to live sensors.
+- The project is designed for a demo and hackathon environment.
+- Routing currently works at gate-to-section level, not exact seat coordinates.
+- Firebase and Gemini features depend on valid environment configuration.
 
-This is intentionally lightweight and focused on algorithm validation rather than full integration coverage.
-
-## ⚠️ Assumptions
-- Crowd telemetry is currently simulated for demo and judging purposes.
-- The routing model operates at gate-to-section granularity, not exact seat coordinates.
-- Firebase Auth and Firestore features depend on environment configuration being present.
-- The app is designed as a competition demo prototype, so polling is used instead of WebSockets.
-- AI quality depends on Gemini API availability and valid credentials.
-
-## 🚀 Future Improvements
-- Upgrade from simulated telemetry to live sensor or event-stream inputs
-- Add automatic re-routing when congestion changes materially
-- Extend routing from section-level to row/seat-level navigation
-- Replace polling with WebSocket or SSE-based live updates
-- Add stronger automated test coverage for controllers, services, and UI flows
-- Persist historical telemetry for trend analysis and model-assisted forecasting
-- Add operator-side controls for crowd intervention scenarios
-
-## 🏆 Why This Project Stands Out
-- **It applies algorithms to a real operational problem**: routing is not cosmetic; it is built on graph logic and weighted pathfinding.
-- **It combines deterministic systems with AI**: Dijkstra handles reliable route computation, while Gemini adds higher-level prediction and explanation.
-- **It is easy to demo and easy to understand**: judges can immediately see the connection between telemetry, visualization, and routing output.
-- **It has real venue relevance**: the same architecture can be extended to stadiums, airports, campuses, expos, and transit hubs.
-- **It demonstrates Google ecosystem integration clearly**: Gemini for analysis, Firebase for auth/storage workflows, and a backend that orchestrates both.
+## Why This Project Stands Out
+- **Real-world problem solving**: addresses crowd flow and navigation inside large venues
+- **AI integration**: uses Gemini to add predictive insight on top of deterministic routing
+- **Scalable idea**: the same approach can extend to stadiums, airports, campuses, and event spaces
+- **Clear product experience**: combines routing, monitoring, authentication, and visualization in one interface
+- **Clean UI and UX**: responsive multi-page frontend designed for demo clarity
 
 ## Author
 **Yashrajsinh Kanchva**
-
-## License
-This project is intended for educational, prototype, and competition use.
