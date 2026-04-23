@@ -14,9 +14,6 @@ The system combines simulated crowd telemetry, route calculation, visual monitor
 ## Live Demo
 - https://stadiumflow.onrender.com
 
-## GitHub
-- https://github.com/Yashrajsinh-Kanchva/PhysicalEventExp
-
 ## Features
 - **Smart route planning** using Dijkstra's algorithm with congestion-adjusted weights
 - **AI-based crowd prediction** through Google Gemini API
@@ -67,6 +64,18 @@ The system combines simulated crowd telemetry, route calculation, visual monitor
   - Zod
   - Axios
   - express-rate-limit
+
+---
+
+## 📸 Screenshots  
+<img width="1920" height="911" alt="homeGDG" src="https://github.com/user-attachments/assets/82cb7905-a002-4c84-b3d9-6d2f21023dae" />
+
+<img width="1920" height="900" alt="dashboardGDG" src="https://github.com/user-attachments/assets/70bf7641-ef43-4adc-a91f-e80b1769f849" />
+
+<img width="1920" height="901" alt="dash2GDG" src="https://github.com/user-attachments/assets/4291b1d5-2c01-4a7b-adae-6f095f06070d" />
+
+<img width="1920" height="899" alt="findSeatGDG" src="https://github.com/user-attachments/assets/0ba44ef6-70ff-4eb2-8efe-ce8860109679" />
+
 
 ## Setup Instructions
 ### 1. Clone the repository
